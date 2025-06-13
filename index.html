@@ -45,69 +45,104 @@
             font-size: 1.1rem;
         }
 
-        .progress-bar {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
+        .accordion {
             background: white;
-            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
         }
 
-        .step {
+        .accordion-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin: 0 15px;
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-right: 10px;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
             transition: all 0.3s ease;
+            user-select: none;
         }
 
-        .step.active .step-number {
+        .accordion-header:hover {
+            background: #e9ecef;
+        }
+
+        .accordion-header.active {
             background: #8b5a3c;
             color: white;
         }
 
-        .step.completed .step-number {
-            background: #28a745;
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .accordion-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #8b5a3c;
             color: white;
-        }
-
-        .form-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 1rem;
         }
 
-        .section-description {
-            color: #6c757d;
-            margin-bottom: 30px;
-            font-size: 1rem;
+        .accordion-header.active .accordion-number {
+            background: white;
+            color: #8b5a3c;
+        }
+
+        .accordion-text {
+            flex: 1;
+        }
+
+        .accordion-text h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .accordion-text p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .accordion-header.active .accordion-text p {
+            opacity: 0.9;
+        }
+
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(139, 90, 60, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .accordion-icon {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: none;
+            padding: 30px;
         }
 
         .form-group {
@@ -120,8 +155,8 @@
             gap: 20px;
         }
 
-        .form-row.three-col {
-            grid-template-columns: 1fr 1fr 1fr;
+        .form-row.single-col {
+            grid-template-columns: 1fr;
         }
 
         label {
@@ -220,20 +255,21 @@
             border-left-color: #ff9800;
         }
 
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
+        .submit-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 15px 30px;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -244,19 +280,12 @@
         .btn-primary {
             background-color: #8b5a3c;
             color: white;
+            min-width: 200px;
         }
 
         .btn-primary:hover {
             background-color: #7a4d33;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
+            transform: translateY(-2px);
         }
 
         .btn:disabled {
@@ -264,18 +293,27 @@
             cursor: not-allowed;
         }
 
-        .signature-pad {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            width: 100%;
-            height: 200px;
-            cursor: crosshair;
+        .completion-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #28a745;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
         }
 
-        .signature-controls {
-            margin-top: 10px;
+        .accordion-header {
+            position: relative;
+        }
+
+        .accordion-header.completed .completion-status {
             display: flex;
-            gap: 10px;
         }
 
         @media (max-width: 768px) {
@@ -283,18 +321,48 @@
                 grid-template-columns: 1fr;
             }
             
-            .form-row.three-col {
-                grid-template-columns: 1fr;
-            }
-            
             .checkbox-group.inline, .radio-group.inline {
                 flex-direction: column;
             }
             
-            .navigation {
-                flex-direction: column;
+            .accordion-header {
+                padding: 15px 20px;
+            }
+            
+            .accordion-content.active {
+                padding: 20px;
+            }
+
+            .accordion-text h3 {
+                font-size: 1.1rem;
+            }
+
+            .accordion-text p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .accordion-title {
                 gap: 10px;
             }
+            
+            .accordion-number {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Smooth scrolling for better UX */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Focus styles for accessibility */
+        .accordion-header:focus {
+            outline: 2px solid #8b5a3c;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -305,186 +373,187 @@
             <p>Please provide the following details to complete your loan application</p>
         </div>
 
-        <div class="progress-bar">
-            <div class="step active" data-step="1">
-                <div class="step-number">1</div>
-                <span>Business Details</span>
-            </div>
-            <div class="step" data-step="2">
-                <div class="step-number">2</div>
-                <span>Entity Structure</span>
-            </div>
-            <div class="step" data-step="3">
-                <div class="step-number">3</div>
-                <span>Employment</span>
-            </div>
-            <div class="step" data-step="4">
-                <div class="step-number">4</div>
-                <span>Eligibility</span>
-            </div>
-            <div class="step" data-step="5">
-                <div class="step-number">5</div>
-                <span>Demographics</span>
-            </div>
-            <div class="step" data-step="6">
-                <div class="step-number">6</div>
-                <span>Certification</span>
-            </div>
-        </div>
-
         <!-- Section 1: Business Details -->
-        <div class="form-section active" data-section="1">
-            <h2 class="section-title">Business Information</h2>
-            <p class="section-description">Please provide additional business details required for SBA Form 1919.</p>
-
-            <div class="form-group">
-                <label>Business Structure Type <span class="required">*</span></label>
-                <div class="info-box">
-                    <strong>OC (Operating Company):</strong> The business that operates day-to-day activities<br>
-                    <strong>EPC (Eligible Passive Company):</strong> A separate entity that owns real estate or assets
-                </div>
-                <div class="checkbox-group inline">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="oc" name="business_structure" value="oc">
-                        <label for="oc">Operating Company (OC)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="epc" name="business_structure" value="epc">
-                        <label for="epc">Eligible Passive Company (EPC)</label>
+        <div class="accordion">
+            <div class="accordion-header" data-section="1" tabindex="0">
+                <div class="accordion-title">
+                    <div class="accordion-number">1</div>
+                    <div class="accordion-text">
+                        <h3>Business Information</h3>
+                        <p>Additional business details required for SBA Form 1919</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group" id="operating_company_group" style="display: none;">
-                <label for="operating_business_name">Operating Business Legal Name <span class="required">*</span></label>
-                <input type="text" id="operating_business_name" name="operating_business_name" placeholder="Enter operating company legal name">
-                <div class="help-text">Only required if different from applicant business name</div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="dba_name">DBA or Trade Name <span class="optional">(Optional)</span></label>
-                    <input type="text" id="dba_name" name="dba_name" placeholder="Doing business as...">
+                <div class="accordion-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
                 </div>
-                <div class="form-group">
-                    <label for="business_phone">Business Phone <span class="required">*</span></label>
-                    <input type="tel" id="business_phone" name="business_phone" placeholder="(555) 123-4567">
-                </div>
+                <div class="completion-status">✓</div>
             </div>
-
-            <div class="form-group">
-                <label for="unique_entity_id">Unique Entity ID (SAM.gov) <span class="optional">(Optional)</span></label>
-                <input type="text" id="unique_entity_id" name="unique_entity_id" placeholder="Enter SAM.gov Unique Entity ID">
-                <div class="help-text">12-character alphanumeric ID from SAM.gov registration</div>
-            </div>
-
-
-
-            <div class="form-row">
+            <div class="accordion-content" data-content="1">
                 <div class="form-group">
-                    <label for="primary_contact_name">Primary Business Contact Name <span class="required">*</span></label>
-                    <input type="text" id="primary_contact_name" name="primary_contact_name" placeholder="Contact person name">
-                    <div class="help-text">Main contact for this loan application</div>
+                    <label>Business Structure Type <span class="required">*</span></label>
+                    <div class="info-box">
+                        <strong>OC (Operating Company):</strong> The business that operates day-to-day activities<br>
+                        <strong>EPC (Eligible Passive Company):</strong> A separate entity that owns real estate or assets
+                    </div>
+                    <div class="checkbox-group inline">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="oc" name="business_structure" value="oc">
+                            <label for="oc">Operating Company (OC)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="epc" name="business_structure" value="epc">
+                            <label for="epc">Eligible Passive Company (EPC)</label>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group" id="operating_company_group" style="display: none;">
+                    <label for="operating_business_name">Operating Business Legal Name <span class="required">*</span></label>
+                    <input type="text" id="operating_business_name" name="operating_business_name" placeholder="Enter operating company legal name">
+                    <div class="help-text">Only required if different from applicant business name</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dba_name">DBA or Trade Name <span class="optional">(Optional)</span></label>
+                        <input type="text" id="dba_name" name="dba_name" placeholder="Doing business as...">
+                    </div>
+                    <div class="form-group">
+                        <label for="business_phone">Business Phone <span class="required">*</span></label>
+                        <input type="tel" id="business_phone" name="business_phone" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="primary_contact_email">Primary Business Contact Email <span class="required">*</span></label>
-                    <input type="email" id="primary_contact_email" name="primary_contact_email" placeholder="contact@business.com">
+                    <label for="unique_entity_id">Unique Entity ID (SAM.gov) <span class="optional">(Optional)</span></label>
+                    <input type="text" id="unique_entity_id" name="unique_entity_id" placeholder="Enter SAM.gov Unique Entity ID">
+                    <div class="help-text">12-character alphanumeric ID from SAM.gov registration</div>
                 </div>
             </div>
         </div>
 
         <!-- Section 2: Entity Structure -->
-        <div class="form-section" data-section="2">
-            <h2 class="section-title">Entity Structure</h2>
-            <p class="section-description">Tell us about your business's legal structure and ownership type.</p>
-
-            <div class="form-group">
-                <label>Entity Type <span class="required">*</span></label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" id="sole_prop" name="entity_type" value="sole_proprietor">
-                        <label for="sole_prop">Sole Proprietor</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="partnership" name="entity_type" value="partnership">
-                        <label for="partnership">Partnership</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="c_corp" name="entity_type" value="c_corp">
-                        <label for="c_corp">C-Corporation</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="s_corp" name="entity_type" value="s_corp">
-                        <label for="s_corp">S-Corporation</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="llc" name="entity_type" value="llc">
-                        <label for="llc">Limited Liability Company (LLC)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="other_entity" name="entity_type" value="other">
-                        <label for="other_entity">Other</label>
+        <div class="accordion">
+            <div class="accordion-header" data-section="2" tabindex="0">
+                <div class="accordion-title">
+                    <div class="accordion-number">2</div>
+                    <div class="accordion-text">
+                        <h3>Entity Structure</h3>
+                        <p>Legal structure and ownership type information</p>
                     </div>
                 </div>
+                <div class="accordion-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </div>
+                <div class="completion-status">✓</div>
             </div>
-
-            <div class="form-group" id="other_entity_group" style="display: none;">
-                <label for="other_entity_description">Please specify other entity type <span class="required">*</span></label>
-                <input type="text" id="other_entity_description" name="other_entity_description" placeholder="Describe your entity type">
-            </div>
-
-            <div class="form-group">
-                <label>Special Ownership Type <span class="optional">(Select all that apply)</span></label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="esop" name="special_ownership" value="esop">
-                        <label for="esop">Employee Stock Ownership Plan (ESOP)</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="robs_401k" name="special_ownership" value="robs_401k">
-                        <label for="robs_401k">401(k) or ROBS 401(k) Trust</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="cooperative" name="special_ownership" value="cooperative">
-                        <label for="cooperative">Cooperative</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="tribal_owned" name="special_ownership" value="tribal_owned">
-                        <label for="tribal_owned">Native-American Tribal-Owned Business</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="other_special" name="special_ownership" value="other">
-                        <label for="other_special">Other</label>
+            <div class="accordion-content" data-content="2">
+                <div class="form-group">
+                    <label>Entity Type <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="sole_prop" name="entity_type" value="sole_proprietor">
+                            <label for="sole_prop">Sole Proprietor</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="partnership" name="entity_type" value="partnership">
+                            <label for="partnership">Partnership</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="c_corp" name="entity_type" value="c_corp">
+                            <label for="c_corp">C-Corporation</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="s_corp" name="entity_type" value="s_corp">
+                            <label for="s_corp">S-Corporation</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="llc" name="entity_type" value="llc">
+                            <label for="llc">Limited Liability Company (LLC)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="other_entity" name="entity_type" value="other">
+                            <label for="other_entity">Other</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group" id="other_special_group" style="display: none;">
-                <label for="other_special_description">Please specify other special ownership type</label>
-                <input type="text" id="other_special_description" name="other_special_description" placeholder="Describe special ownership type">
+                <div class="form-group" id="other_entity_group" style="display: none;">
+                    <label for="other_entity_description">Please specify other entity type <span class="required">*</span></label>
+                    <input type="text" id="other_entity_description" name="other_entity_description" placeholder="Describe your entity type">
+                </div>
+
+                <div class="form-group">
+                    <label>Special Ownership Type <span class="optional">(Select all that apply)</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="esop" name="special_ownership" value="esop">
+                            <label for="esop">Employee Stock Ownership Plan (ESOP)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="robs_401k" name="special_ownership" value="robs_401k">
+                            <label for="robs_401k">401(k) or ROBS 401(k) Trust</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cooperative" name="special_ownership" value="cooperative">
+                            <label for="cooperative">Cooperative</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tribal_owned" name="special_ownership" value="tribal_owned">
+                            <label for="tribal_owned">Native-American Tribal-Owned Business</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="other_special" name="special_ownership" value="other">
+                            <label for="other_special">Other</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="other_special_group" style="display: none;">
+                    <label for="other_special_description">Please specify other special ownership type</label>
+                    <input type="text" id="other_special_description" name="other_special_description" placeholder="Describe special ownership type">
+                </div>
             </div>
         </div>
 
         <!-- Section 3: Employment Information -->
-        <div class="form-section" data-section="3">
-            <h2 class="section-title">Employment Information</h2>
-            <p class="section-description">Provide employment details for SBA reporting requirements.</p>
-
-            <div class="info-box">
-                Include all employees: owners, part-time, full-time, and employees of domestic and foreign affiliates. Do not convert to FTE for the first question.
+        <div class="accordion">
+            <div class="accordion-header" data-section="3" tabindex="0">
+                <div class="accordion-title">
+                    <div class="accordion-number">3</div>
+                    <div class="accordion-text">
+                        <h3>Employment Information</h3>
+                        <p>Employment details for SBA reporting requirements</p>
+                    </div>
+                </div>
+                <div class="accordion-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </div>
+                <div class="completion-status">✓</div>
             </div>
+            <div class="accordion-content" data-content="3">
+                <div class="info-box">
+                    Include all employees: owners, part-time, full-time, and employees of domestic and foreign affiliates. Do not convert to FTE for the first question.
+                </div>
 
-            <div class="form-row three-col">
                 <div class="form-group">
                     <label for="existing_employees">Number of Existing Employees <span class="required">*</span></label>
                     <input type="number" id="existing_employees" name="existing_employees" min="0" placeholder="0">
                     <div class="help-text">Include owners and all part/full-time staff</div>
                 </div>
+
                 <div class="form-group">
                     <label for="jobs_retained">FTE Jobs Saved/Retained <span class="required">*</span></label>
                     <input type="number" id="jobs_retained" name="jobs_retained" min="0" placeholder="0">
                     <div class="help-text">Full-time equivalent jobs preserved</div>
                 </div>
+
                 <div class="form-group">
                     <label for="jobs_created">New FTE Jobs Created <span class="required">*</span></label>
                     <input type="number" id="jobs_created" name="jobs_created" min="0" placeholder="0">
@@ -494,390 +563,330 @@
         </div>
 
         <!-- Section 4: Eligibility Questions -->
-        <div class="form-section" data-section="4">
-            <h2 class="section-title">Eligibility Questions</h2>
-            <p class="section-description">Please answer these compliance questions honestly. Details must be provided for any "Yes" answers.</p>
-
-            <div class="info-box warning">
-                These questions are required by federal law. Providing false information is punishable by fines and imprisonment.
-            </div>
-
-            <div class="form-group">
-                <label>Q3: Is the Applicant or any owner of the Applicant an owner of any other business? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q3_yes" name="q3_other_business" value="yes">
-                        <label for="q3_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q3_no" name="q3_other_business" value="no">
-                        <label for="q3_no">No</label>
+        <div class="accordion">
+            <div class="accordion-header" data-section="4" tabindex="0">
+                <div class="accordion-title">
+                    <div class="accordion-number">4</div>
+                    <div class="accordion-text">
+                        <h3>Eligibility Questions</h3>
+                        <p>Compliance questions required by federal law</p>
                     </div>
                 </div>
-                <div class="help-text">If yes, list all businesses with TINs and ownership percentages on a separate sheet</div>
+                <div class="accordion-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </div>
+                <div class="completion-status">✓</div>
             </div>
+            <div class="accordion-content" data-content="4">
+                <div class="info-box warning">
+                    These questions are required by federal law. Providing false information is punishable by fines and imprisonment.
+                </div>
 
-            <div class="form-group">
-                <label>Q5: Are any products/services exported, or is there a plan to begin exporting as a result of this loan? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q5_yes" name="q5_export" value="yes">
-                        <label for="q5_yes">Yes</label>
+                <div class="form-group">
+                    <label>Q3: Are you or any other owner of your business an owner of any other business? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q3_yes" name="q3_other_business" value="yes">
+                            <label for="q3_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q3_no" name="q3_other_business" value="no">
+                            <label for="q3_no">No</label>
+                        </div>
                     </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q5_no" name="q5_export" value="no">
-                        <label for="q5_no">No</label>
+                    <div class="help-text">If yes, list all businesses with TINs and ownership percentages on a separate sheet</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Q5: Do you export any products/services, or do you plan to begin exporting as a result of this loan? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q5_yes" name="q5_export" value="yes">
+                            <label for="q5_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q5_no" name="q5_export" value="no">
+                            <label for="q5_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="export_details" style="display: none;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="export_sales">Q5a: Estimated total export sales this loan will support <span class="required">*</span></label>
-                        <input type="number" id="export_sales" name="export_sales" min="0" step="0.01" placeholder="0.00">
-                    </div>
-                    <div class="form-group">
-                        <label for="export_countries">Q5b: Principal countries of export (list at least 1) <span class="required">*</span></label>
-                        <input type="text" id="export_countries" name="export_countries" placeholder="e.g., Canada, Mexico, United Kingdom">
+                <div id="export_details" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="export_sales">Q5a: Estimated total export sales this loan will support <span class="required">*</span></label>
+                            <input type="number" id="export_sales" name="export_sales" min="0" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="export_countries">Q5b: Principal countries of export (list at least 1) <span class="required">*</span></label>
+                            <input type="text" id="export_countries" name="export_countries" placeholder="e.g., Canada, Mexico, United Kingdom">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Q6: Has the Applicant paid or committed to pay a fee to the Lender or third party for loan application assistance? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q6_yes" name="q6_fees" value="yes">
-                        <label for="q6_yes">Yes</label>
+                <div class="form-group">
+                    <label>Q6: Have you paid or committed to pay a fee to the Lender or third party for loan application assistance? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q6_yes" name="q6_fees" value="yes">
+                            <label for="q6_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q6_no" name="q6_fees" value="no">
+                            <label for="q6_no">No</label>
+                        </div>
                     </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q6_no" name="q6_fees" value="no">
-                        <label for="q6_no">No</label>
+                    <div class="help-text">If yes, provide details to your lender (name of third party and fee amount)</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Q7: Do you derive any revenues from gambling, loan packaging, lending activities, lobbying, or adult entertainment? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q7_yes" name="q7_prohibited" value="yes">
+                            <label for="q7_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q7_no" name="q7_prohibited" value="no">
+                            <label for="q7_no">No</label>
+                        </div>
                     </div>
                 </div>
-                <div class="help-text">If yes, provide details to your lender (name of third party and fee amount)</div>
-            </div>
 
-            <div class="form-group">
-                <label>Q7: Are any revenues derived from gambling, loan packaging, lending activities, lobbying, or adult entertainment? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q7_yes" name="q7_prohibited" value="yes">
-                        <label for="q7_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q7_no" name="q7_prohibited" value="no">
-                        <label for="q7_no">No</label>
+                <div class="form-group">
+                    <label>Q8: Are you (10%+ owner) an SBA employee or household member of an SBA employee? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q8_yes" name="q8_sba_employee" value="yes">
+                            <label for="q8_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q8_no" name="q8_sba_employee" value="no">
+                            <label for="q8_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Q8: Is any owner (10%+) an SBA employee or household member of an SBA employee? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q8_yes" name="q8_sba_employee" value="yes">
-                        <label for="q8_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q8_no" name="q8_sba_employee" value="no">
-                        <label for="q8_no">No</label>
+                <div class="form-group">
+                    <label>Q9: Are you a former SBA employee separated less than one year prior to this request? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q9_yes" name="q9_former_sba" value="yes">
+                            <label for="q9_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q9_no" name="q9_former_sba" value="no">
+                            <label for="q9_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Q9: Is any owner a former SBA employee separated less than one year prior to this request? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q9_yes" name="q9_former_sba" value="yes">
-                        <label for="q9_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q9_no" name="q9_former_sba" value="no">
-                        <label for="q9_no">No</label>
+                <div class="form-group">
+                    <label>Q10: Are you (10%+ owner) a member of Congress or federal legislative/judicial official? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q10_yes" name="q10_congress" value="yes">
+                            <label for="q10_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q10_no" name="q10_congress" value="no">
+                            <label for="q10_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Q10: Is any owner (10%+) a member of Congress or federal legislative/judicial official? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q10_yes" name="q10_congress" value="yes">
-                        <label for="q10_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q10_no" name="q10_congress" value="no">
-                        <label for="q10_no">No</label>
+                <div class="form-group">
+                    <label>Q11: Are you (10%+ owner) a Federal Government employee or Military member (GS-13+ or equivalent)? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q11_yes" name="q11_federal" value="yes">
+                            <label for="q11_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q11_no" name="q11_federal" value="no">
+                            <label for="q11_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Q11: Is any owner (10%+) a Federal Government employee or Military member (GS-13+ or equivalent)? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q11_yes" name="q11_federal" value="yes">
-                        <label for="q11_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q11_no" name="q11_federal" value="no">
-                        <label for="q11_no">No</label>
+                <div class="form-group">
+                    <label>Q12: Are you (10%+ owner) a member of a Small Business Advisory Council or SCORE volunteer? <span class="required">*</span></label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="q12_yes" name="q12_advisory" value="yes">
+                            <label for="q12_yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="q12_no" name="q12_advisory" value="no">
+                            <label for="q12_no">No</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label>Q12: Is any owner (10%+) a member of a Small Business Advisory Council or SCORE volunteer? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q12_yes" name="q12_advisory" value="yes">
-                        <label for="q12_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q12_no" name="q12_advisory" value="no">
-                        <label for="q12_no">No</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Q13: Is the Applicant or any owner currently involved in any legal action (including divorce)? <span class="required">*</span></label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="q13_yes" name="q13_legal" value="yes">
-                        <label for="q13_yes">Yes</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="q13_no" name="q13_legal" value="no">
-                        <label for="q13_no">No</label>
-                    </div>
-                </div>
-                <div class="help-text">If yes, provide details</div>
             </div>
         </div>
 
         <!-- Section 5: Optional Demographics -->
-        <div class="form-section" data-section="5">
-            <h2 class="section-title">Demographic Information (Optional)</h2>
-            <p class="section-description">This information is collected for program reporting purposes only and will not affect your loan decision.</p>
-
-            <div class="info-box">
-                Veteran/sex/race/ethnicity data is voluntary and used solely for reporting. Disclosure will have no bearing on the loan application decision.
-            </div>
-
-            <div class="form-group">
-                <label for="demo_owner_name">Owner Name</label>
-                <input type="text" id="demo_owner_name" name="demo_owner_name" placeholder="Owner's full name">
-            </div>
-
-            <div class="form-group">
-                <label for="demo_owner_position">Owner's Position</label>
-                <input type="text" id="demo_owner_position" name="demo_owner_position" placeholder="e.g., President, Owner, Manager">
-            </div>
-
-            <div class="form-group">
-                <label>Veteran Status</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" id="non_veteran" name="veteran_status" value="non_veteran">
-                        <label for="non_veteran">Non-Veteran</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="veteran" name="veteran_status" value="veteran">
-                        <label for="veteran">Veteran</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="service_disabled" name="veteran_status" value="service_disabled">
-                        <label for="service_disabled">Service-Disabled Veteran</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="spouse_veteran" name="veteran_status" value="spouse_veteran">
-                        <label for="spouse_veteran">Spouse of Veteran</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="veteran_not_disclosed" name="veteran_status" value="not_disclosed">
-                        <label for="veteran_not_disclosed">Not Disclosed</label>
+        <div class="accordion">
+            <div class="accordion-header" data-section="5" tabindex="0">
+                <div class="accordion-title">
+                    <div class="accordion-number">5</div>
+                    <div class="accordion-text">
+                        <h3>Demographic Information</h3>
+                        <p>Optional information for program reporting purposes</p>
                     </div>
                 </div>
+                <div class="accordion-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                    </svg>
+                </div>
+                <div class="completion-status">✓</div>
             </div>
+            <div class="accordion-content" data-content="5">
+                <div class="info-box">
+                    Veteran/sex/race/ethnicity data is voluntary and used solely for reporting. Disclosure will have no bearing on the loan application decision.
+                </div>
 
-            <div class="form-group">
-                <label>Sex</label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="male" name="sex" value="male">
-                        <label for="male">Male</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="female" name="sex" value="female">
-                        <label for="female">Female</label>
+                <div class="form-group">
+                    <label for="demo_owner_name">Owner Name</label>
+                    <input type="text" id="demo_owner_name" name="demo_owner_name" placeholder="Owner's full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="demo_owner_position">Owner's Position</label>
+                    <input type="text" id="demo_owner_position" name="demo_owner_position" placeholder="e.g., President, Owner, Manager">
+                </div>
+
+                <div class="form-group">
+                    <label>Veteran Status</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="non_veteran" name="veteran_status" value="non_veteran">
+                            <label for="non_veteran">Non-Veteran</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="veteran" name="veteran_status" value="veteran">
+                            <label for="veteran">Veteran</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="service_disabled" name="veteran_status" value="service_disabled">
+                            <label for="service_disabled">Service-Disabled Veteran</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="spouse_veteran" name="veteran_status" value="spouse_veteran">
+                            <label for="spouse_veteran">Spouse of Veteran</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="veteran_not_disclosed" name="veteran_status" value="not_disclosed">
+                            <label for="veteran_not_disclosed">Not Disclosed</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Race (more than 1 may be selected)</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="american_indian" name="race" value="american_indian">
-                        <label for="american_indian">American Indian or Alaska Native</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="asian" name="race" value="asian">
-                        <label for="asian">Asian</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="black" name="race" value="black">
-                        <label for="black">Black or African American</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="pacific_islander" name="race" value="pacific_islander">
-                        <label for="pacific_islander">Native Hawaiian or Pacific Islander</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="white" name="race" value="white">
-                        <label for="white">White</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="race_not_disclosed" name="race" value="not_disclosed">
-                        <label for="race_not_disclosed">Not Disclosed</label>
+                <div class="form-group">
+                    <label>Sex</label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="male" name="sex" value="male">
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="female" name="sex" value="female">
+                            <label for="female">Female</label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Ethnicity</label>
-                <div class="radio-group inline">
-                    <div class="radio-item">
-                        <input type="radio" id="hispanic_latino" name="ethnicity" value="hispanic_latino">
-                        <label for="hispanic_latino">Hispanic or Latino</label>
+                <div class="form-group">
+                    <label>Race (more than 1 may be selected)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="american_indian" name="race" value="american_indian">
+                            <label for="american_indian">American Indian or Alaska Native</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="asian" name="race" value="asian">
+                            <label for="asian">Asian</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="black" name="race" value="black">
+                            <label for="black">Black or African American</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pacific_islander" name="race" value="pacific_islander">
+                            <label for="pacific_islander">Native Hawaiian or Pacific Islander</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="white" name="race" value="white">
+                            <label for="white">White</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="race_not_disclosed" name="race" value="not_disclosed">
+                            <label for="race_not_disclosed">Not Disclosed</label>
+                        </div>
                     </div>
-                    <div class="radio-item">
-                        <input type="radio" id="not_hispanic_latino" name="ethnicity" value="not_hispanic_latino">
-                        <label for="not_hispanic_latino">Not Hispanic or Latino</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="ethnicity_not_disclosed" name="ethnicity" value="not_disclosed">
-                        <label for="ethnicity_not_disclosed">Not Disclosed</label>
+                </div>
+
+                <div class="form-group">
+                    <label>Ethnicity</label>
+                    <div class="radio-group inline">
+                        <div class="radio-item">
+                            <input type="radio" id="hispanic_latino" name="ethnicity" value="hispanic_latino">
+                            <label for="hispanic_latino">Hispanic or Latino</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="not_hispanic_latino" name="ethnicity" value="not_hispanic_latino">
+                            <label for="not_hispanic_latino">Not Hispanic or Latino</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="ethnicity_not_disclosed" name="ethnicity" value="not_disclosed">
+                            <label for="ethnicity_not_disclosed">Not Disclosed</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Section 6: Signature & Certification -->
-        <div class="form-section" data-section="6">
-            <h2 class="section-title">Signature & Certification</h2>
-            <p class="section-description">By signing below, you certify that all information provided is true and accurate.</p>
-
-            <div class="info-box warning">
-                <strong>Warning:</strong> Knowingly making a false statement to obtain an SBA guaranteed loan is punishable under federal law by imprisonment and/or fines.
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="signatory_name">Print Name <span class="required">*</span></label>
-                    <input type="text" id="signatory_name" name="signatory_name" placeholder="Full legal name">
-                </div>
-                <div class="form-group">
-                    <label for="signatory_title">Title <span class="required">*</span></label>
-                    <input type="text" id="signatory_title" name="signatory_title" placeholder="e.g., President, Owner, CEO">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Electronic Signature <span class="required">*</span></label>
-                <canvas class="signature-pad" id="signature_pad"></canvas>
-                <div class="signature-controls">
-                    <button type="button" class="btn btn-secondary" id="clear_signature">Clear Signature</button>
-                </div>
-                <div class="help-text">Please sign above using your mouse or touch screen</div>
-            </div>
-
-            <div class="form-group">
-                <label for="signature_date">Date <span class="required">*</span></label>
-                <input type="date" id="signature_date" name="signature_date" required>
-            </div>
-
-            <div class="form-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="certification" name="certification" required>
-                    <label for="certification">
-                        I certify that I have read and understand all statements in this form, including the Statements Required by Law and Executive Order. I certify that the information provided is true and accurate in all material respects. I understand that knowingly making a false statement is punishable under federal law.
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="navigation">
-            <button type="button" class="btn btn-secondary" id="prev_btn" style="display: none;">Previous</button>
-            <button type="button" class="btn btn-primary" id="next_btn">Next</button>
+        <!-- Submit Section -->
+        <div class="submit-section">
+            <h3 style="margin-bottom: 15px; color: #2c3e50;">Ready to Submit?</h3>
+            <p style="margin-bottom: 25px; color: #6c757d;">Please review all sections above before submitting your form.</p>
+            <button type="button" class="btn btn-primary" id="submit_btn">Submit Form</button>
         </div>
     </div>
 
     <script>
-        let currentStep = 1;
-        const totalSteps = 6;
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const section = this.getAttribute('data-section');
+                const content = document.querySelector(`[data-content="${section}"]`);
+                const isActive = this.classList.contains('active');
+                
+                // Toggle current section
+                if (isActive) {
+                    this.classList.remove('active');
+                    content.classList.remove('active');
+                } else {
+                    this.classList.add('active');
+                    content.classList.add('active');
+                }
+            });
 
-        // Form navigation
-        document.getElementById('next_btn').addEventListener('click', () => {
-            if (currentStep < totalSteps) {
-                nextStep();
-            } else {
-                submitForm();
-            }
+            // Add keyboard support
+            header.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
         });
 
-        document.getElementById('prev_btn').addEventListener('click', () => {
-            if (currentStep > 1) {
-                prevStep();
-            }
-        });
-
-        function nextStep() {
-            document.querySelector(`[data-section="${currentStep}"]`).classList.remove('active');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.add('completed');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
-            
-            currentStep++;
-            
-            document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
-            
-            updateNavigationButtons();
-        }
-
-        function prevStep() {
-            document.querySelector(`[data-section="${currentStep}"]`).classList.remove('active');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('active');
-            
-            currentStep--;
-            
-            document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
-            document.querySelector(`[data-step="${currentStep}"]`).classList.remove('completed');
-            
-            updateNavigationButtons();
-        }
-
-        function updateNavigationButtons() {
-            const prevBtn = document.getElementById('prev_btn');
-            const nextBtn = document.getElementById('next_btn');
-            
-            if (currentStep === 1) {
-                prevBtn.style.display = 'none';
-            } else {
-                prevBtn.style.display = 'inline-block';
-            }
-            
-            if (currentStep === totalSteps) {
-                nextBtn.textContent = 'Submit Form';
-            } else {
-                nextBtn.textContent = 'Next';
-            }
-        }
+        // Open first section by default
+        document.querySelector('[data-section="1"]').classList.add('active');
+        document.querySelector('[data-content="1"]').classList.add('active');
 
         // Dynamic form field display
         document.querySelectorAll('input[name="business_structure"]').forEach(checkbox => {
@@ -958,64 +967,8 @@
             });
         });
 
-        // Signature pad functionality
-        const canvas = document.getElementById('signature_pad');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        let hasSignature = false;
-
-        // Set canvas size
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('touchstart', startDrawing);
-        canvas.addEventListener('touchmove', draw);
-        canvas.addEventListener('touchend', stopDrawing);
-
-        function startDrawing(e) {
-            isDrawing = true;
-            hasSignature = true;
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
-            
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        function draw(e) {
-            if (!isDrawing) return;
-            
-            e.preventDefault();
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
-            
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#000';
-            ctx.lineTo(x, y);
-            ctx.stroke();
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-            ctx.beginPath();
-        }
-
-        document.getElementById('clear_signature').addEventListener('click', function() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            hasSignature = false;
-        });
-
-        // Set default date to today
-        document.getElementById('signature_date').valueAsDate = new Date();
-
         // Form submission
-        function submitForm() {
+        document.getElementById('submit_btn').addEventListener('click', function() {
             // Here you would typically send the form data to your server
             alert('Form submitted successfully! This is a demo - in production, this would be sent to your server.');
             
@@ -1033,10 +986,13 @@
             });
             
             console.log('Form data:', Object.fromEntries(formData));
-        }
+        });
 
-        // Initialize form
-        updateNavigationButtons();
+        // Optional: Add section completion tracking
+        function checkSectionCompletion() {
+            // This could be enhanced to actually validate required fields
+            // For now, it's just a placeholder for the completion status
+        }
     </script>
 </body>
 </html>
